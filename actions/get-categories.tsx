@@ -1,20 +1,12 @@
-import { Category } from "@/types";
+import axios from "axios";
+import { Category } from "@/types"; // Adjust the import based on your folder structure
 
-const URL = `${process.env.NEXT_PUBLIC_API_URL}/categories`;
-
-const getCategories = async (): Promise<Category[]> => {
+export async function getCategories(): Promise<Category[]> {
   try {
-    const res = await fetch(URL);
-
-    if (!res.ok) {
-      throw new Error(`Failed to fetch categories. Status: ${res.status}`);
-    }
-
-    return res.json();
+    const response = await axios.get("/api/categories"); // Adjust the API endpoint
+    return response.data;
   } catch (error) {
-    console.error("Error in getCategories:", error);
-    throw error; // Re-throw the error for further handling
+    console.error("Error fetching categories:", error);
+    return [];
   }
-};
-
-export default getCategories;
+}

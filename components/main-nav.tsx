@@ -6,17 +6,20 @@ import { cn } from "@/lib/utils";
 import { Category } from "@/types";
 
 interface MainNavProps {
-  data: Category[];
+  data: Category[] | undefined;
 }
 
 const MainNav: React.FC<MainNavProps> = ({ data }) => {
   const pathname = usePathname();
 
-  const routes = data.map((route) => ({
-    href: `/category/${route.id}`,
-    label: route.name,
-    active: pathname === `/category/${route.id}`,
-  }));
+  // Check if data is defined before mapping over it
+  const routes = data
+    ? data.map((route) => ({
+        href: `/category/${route.id}`,
+        label: route.name,
+        active: pathname === `/category/${route.id}`,
+      }))
+    : [];
 
   return (
     <nav className="mx-6 flex items-center space-x-4 lg:space-x-6">
